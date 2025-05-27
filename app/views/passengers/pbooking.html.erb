@@ -1,0 +1,31 @@
+<%= stylesheet_link_tag 'application' %>
+<table class="table_class">
+  <tr>
+  <th>Passenger Name</th>
+  <th>Train Number</th>
+  <th>Confirmation Number</th>
+  <th>Booked By</th>
+  <th>Booked on</th>  
+ </tr>
+ <% passenger_user = Passenger.find(session[:passenger_id]) %>
+
+<% Ticket.all.each do |ticket| %>
+  <% if ticket.passenger_id == passenger_user.id || ticket.booked_by == passenger_user.id%>  
+    <tr>
+    <td><%= Passenger.find_by(id: ticket.passenger_id).name %></td>
+    <td><%= Train.find_by(id: ticket.train_id).train_number %></td> 
+    <td><%= ticket.confirmation_number %></td>
+    <% if ticket.booked_by == "admin" %>
+    <td><%= Admin.find_by(id: 1).name %></td>
+    <%else%>
+    <td><%= Passenger.find_by(id: ticket.booked_by.to_i).name %></td>
+    <%end%>    
+    <td><%= ticket.created_at %></td>
+    
+    <td><%= button_to "Destroy", Ticket.find_by(passenger_id: ticket.passenger_id, train_id:ticket.train_id), method: :delete %></td>
+    </tr>
+  <% end %>
+<% end %>
+</table>
+
+<%= link_to 'Back', passengers_path %>

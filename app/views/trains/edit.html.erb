@@ -1,0 +1,12 @@
+<h1>Editing train</h1>
+
+<%= render "form", train: @train %>
+
+<br>
+
+<div>
+<%= link_to "Show this train", @train %> |
+  <% if session[:admin_id] != nil %>
+    <%= link_to "Back to trains", train_show_route_path %>
+  <% end %>
+</div>

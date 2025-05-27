@@ -1,0 +1,13 @@
+<p style="color: green"><%= notice %></p>
+
+<div id="tickets">
+  
+    <p>
+    <% if session[:passenger_id] != nil %>
+    <%= link_to "Back to tickets", pbooking_route_path %>
+    <%else%>
+    <th><%= link_to 'Back to tickets', ticket_show_route_path %></th>
+    <%end%>
+    </p>
+ 
+</div>

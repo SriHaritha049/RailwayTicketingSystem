@@ -1,0 +1,22 @@
+<%= stylesheet_link_tag 'application' %>
+<table class="table_class">
+  <tr>
+    <th>Rating</th>
+    <th>Feedback</th>
+    <th>Review By</th>
+    <th>Train ID</th>
+  </tr>
+
+<% Review.all.each do |review| %>
+    <% if review.passenger_id == session[:passenger_id] %>  
+  <tr>
+    <td><%= review.rating %></td>
+    <td><%= review.feedback %></td>
+    <td><%= review.passenger_id %></td>
+    <td><%= review.train_id %></td>
+    <th> <%= link_to "Update", edit_review_path(review, :train_id => review.train_id) %></th>
+  </tr>
+  <%end%>
+<% end %>
+</table>
+<%= link_to 'Back', passengers_path %>

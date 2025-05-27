@@ -1,0 +1,62 @@
+<%= stylesheet_link_tag 'application' %>
+<table class="table_class">
+  <tr>
+    <th>Train number</th>
+    <th>Departure station</th>
+    <th>Termination station</th>
+    <th>Departure date</th>
+    <th>Departure time</th>
+    <th>Arrival date</th>
+    <th>Arrival time</th>
+    <th>Ticket price</th>
+    <th>Train capacity</th>
+    <th>Seats left</th>
+    <th>Average Rating</th>
+
+  </tr>
+
+<% Train.all.each do |train| %>
+  <tr>
+    <td><%= train.train_number %></td>
+    <td><%= train.departure_station %></td>
+    <td><%= train.termination_station %></td>
+    <td><%= train.departure_date %></td>
+    <td><%= train.departure_time.strftime("%H:%M") %></td>
+    <td><%= train.arrival_date %></td>
+    <td><%= train.arrival_time.strftime("%H:%M") %></td>
+    <td><%= train.ticket_price %></td>
+    <td><%= train.train_capacity %></td>
+    <td><%= train.seats_left %></td>
+    <%review = Review.where(:train_id => train.id)%>
+    <td><%= review.average(:rating).to_i %></td>
+
+    <td><%= link_to 'Book train', newticket_path(:train_id => train.id) %></td>
+    <td>  <%= link_to "Add reviews", newreview_path(:train_id => train.id) %></td>
+    <td><%= link_to 'Show', train %></td>
+    <td><%= link_to 'Edit', edit_train_path(train) %></td>
+    <td><%= link_to 'Destroy', train, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  
+    </tr>
+<% end %>
+</table>
+<br>
+<table>
+<tr>
+<td>
+<%= form_tag(trainstation_filter_route_path, :method => "get") do %>
+  <div class="input-group">
+    <%= search_field_tag :departure_station, params[:departure_station], placeholder: "Enter Departure Station", class: "form-control" %>
+    <%= search_field_tag :termination_station, params[:termination_station], placeholder: "Enter Termination Station", class: "form-control" %>
+    <div class="input-group-btn">
+      <%= button_tag "Search", :class =>'btn btn-info glyphicon glyphicon-search', :auth_name => nil %>
+    </div>
+  </div>
+<% end %>
+</td>
+
+</tr>
+</table>
+<br>
+
+<%= link_to 'Add train', newtrain_path %>
+<br><%= link_to 'Back to dashboard', admins_path %>
